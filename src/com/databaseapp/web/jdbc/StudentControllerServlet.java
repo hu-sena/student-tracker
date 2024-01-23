@@ -42,7 +42,29 @@ public class StudentControllerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			listStudents(request, response);
+			
+			// read the "command" parameter from form
+			String theCommand = request.getParameter("command");
+			
+			// if the command is missing, then default to listing student
+			if (theCommand == null) {
+				theCommand = "LIST";
+			}
+			
+			// route to the appropriate method
+			switch (theCommand) {
+				case "LIST":
+					listStudents(request, response);
+					break;
+				
+				case "ADD":
+					addStudent(request, response);
+					break;
+				
+				default: 
+					listStudents(request, response);
+			}
+			
 		} catch (Exception exc) {
 			throw new ServletException(exc);
 		}
