@@ -1,8 +1,10 @@
 package com.databaseapp.web.jdbc;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,8 +39,26 @@ public class StudentControllerServlet extends HttpServlet {
 
 	// @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		try {
+			listStudents(request, response);
+		} catch (Exception exc) {
+			throw new ServletException(exc);
+		}
+	}
+
+
+	private void listStudents(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		// Step 1: get students from studentDBUtil
+		List<Student> students = studentDBUtil.getStudents();
+		
+		// Step 2: add students to the request
+		request.setAttribute("STUDENT_LIST", students);
+		
+		// Step 3: send to JSP 
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/list-students.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }
