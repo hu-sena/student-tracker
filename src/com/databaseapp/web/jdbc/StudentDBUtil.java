@@ -80,4 +80,10 @@ public class StudentDBUtil {
 		}
 		
 	}
+
+
+	public void addStudent(Student theStudent) {
+		// TODO Auto-generated method stub
+		
+	}
 }
