@@ -1,6 +1,7 @@
 package com.databaseapp.web.jdbc;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class StudentDBUtil {
 			String SQL = "SELECT * FROM student ORDER BY last_name";
 			myStatement = myConnection.createStatement();
 			
-			// Step 3: execute the SQL query
+			// Step 3: execute the SQL statement
 			myResult = myStatement.executeQuery(SQL);
 			
 			// Step 4: process result set - loop through the results
@@ -82,8 +83,36 @@ public class StudentDBUtil {
 	}
 
 
-	public void addStudent(Student theStudent) {
-		// TODO Auto-generated method stub
+	public void addStudent(Student theStudent) throws Exception {
+		
+		Connection myConnection = null;
+		PreparedStatement myStatement = null;
+		
+		try {
+			// Step 1: get DBC connection
+			myConnection = dataSource.getConnection();
+			
+			// Step 2: create SQL statement: insert
+			String SQL = "INSERT INTO student "
+					   + "(first_name, last_name, email) "
+					   + "values (?, ?, ?)";
+			myStatement = myConnection.prepareStatement(SQL);
+			
+			// Step 3: set the param values 
+			myStatement.setString(1,  theStudent.getFirstName());
+			myStatement.setString(2,  theStudent.getLastName());
+			myStatement.setString(3,  theStudent.getEmail());
+			
+			// Step 4: execute the SQL statement
+			myStatement.execute();
+			
+		} finally {
+			// Step 4: close JDBC objects connection
+			close(myConnection, myStatement, null);
+		}
+		
+		
+		
 		
 	}
 }
