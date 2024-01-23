@@ -61,5 +61,23 @@ public class StudentDBUtil {
 		
 	}
 
-	
+	private void close(Connection myConnection, Statement myStatement, ResultSet myResult) {
+		
+		try {
+			if (myResult != null) {
+				myResult.close();
+			}
+			if (myStatement != null) {
+				myStatement.close();
+			}
+			// put back into connection pool
+			if (myConnection != null) {
+				myConnection.close();
+			}
+		} catch (Exception exc) {
+			// provides info about the sequence of method calls till the exception occurred
+			exc.printStackTrace();
+		}
+		
+	}
 }
