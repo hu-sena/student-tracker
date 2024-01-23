@@ -22,6 +22,17 @@ public class StudentControllerServlet extends HttpServlet {
 	@Resource(name="jdbc/web_student_tracker")
 	private DataSource dataSource;
 
+	// (life-cycle - execute when first loaded): one-time setup tasks such as initialize resource and connection
+	@Override
+	public void init() throws ServletException {
+		// create studentDBUtil then, pass into datasource (connection pool)
+		try {
+			studentDBUtil = new StudentDBUtil(dataSource);
+		} catch (Exception exc) {
+			throw new ServletException(exc);
+		}
+		
+	}
 
 
 	// @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
