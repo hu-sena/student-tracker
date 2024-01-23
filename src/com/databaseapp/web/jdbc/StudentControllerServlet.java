@@ -27,6 +27,7 @@ public class StudentControllerServlet extends HttpServlet {
 	// (life-cycle - execute when first loaded): one-time setup tasks such as initialize resource and connection
 	@Override
 	public void init() throws ServletException {
+		super.init();
 		// create studentDBUtil then, pass into datasource (connection pool)
 		try {
 			studentDBUtil = new StudentDBUtil(dataSource);
