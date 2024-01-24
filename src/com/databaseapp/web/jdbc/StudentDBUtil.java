@@ -195,4 +195,9 @@ public class StudentDBUtil {
 		}
 		
 	}
+
+	public void deleteStudent(String theStudentId) {
+		// TODO Auto-generated method stub
+		
+	}
 }
