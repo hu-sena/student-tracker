@@ -110,14 +110,57 @@ public class StudentDBUtil {
 			// Step 4: close JDBC objects connection
 			close(myConnection, myStatement, null);
 		}
-		
-		
-		
+			
 		
 	}
 
-	public Student getStudent(String theStudentId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Student getStudent(String theStudentId) throws Exception {
+		// when student does not exist
+		Student theStudent = null;
+		
+		Connection myConnection = null;
+		PreparedStatement myStatement = null;
+		ResultSet myResult = null;
+		int studentId;
+		
+		try {
+			// Step 0: convert student ID into int
+			studentId = Integer.parseInt(theStudentId);
+			
+			// Step 1: get DBC connection
+			myConnection = dataSource.getConnection();
+			
+			// Step 2: create SQL statement: select based on ID
+			String SQL = "SLECT * FROM student "
+					   + "WHERE id=?";
+			myStatement = myConnection.prepareStatement(SQL);
+			
+			// Step 3: set the param values 
+			myStatement.setInt(1,  studentId);
+			
+			// Step 4: execute the SQL statement
+			myResult = myStatement.executeQuery();
+			
+			// Step 5: retrieve data from result set
+			if (myResult.next()) {
+							
+				String firstName = myResult.getString("first_name");
+				String lastName = myResult.getString("last_name");
+				String email = myResult.getString("email");
+				
+				// create the student object using student ID
+				theStudent = new Student(studentId, firstName, lastName, email);	
+			} else {
+				throw new Exception("Could not find student ID: " + studentId);
+			}
+			return theStudent;
+			
+		} finally {
+			// Step 4: close JDBC objects connection
+			close(myConnection, myStatement, myResult);
+		}
+			
+		
+		
 	}
 }
