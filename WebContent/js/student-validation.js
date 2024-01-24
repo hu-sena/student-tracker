@@ -9,19 +9,19 @@ function validateForm() {
 	// check first name
 	var firstName = studentForm["firstName"].value.trim();;
 	if (firstName == "") {
-		theErrorFields.push("First Name ");
+		theErrorFields.push(" First Name");
 	}
  
 	// check last name
 	var lastName = studentForm["lastName"].value.trim();;
 	if (lastName == "") {
-		theErrorFields.push("Last Name ");
+		theErrorFields.push(" Last Name");
 	}
 	
 	// check email
 	var email = studentForm["email"].value.trim();;
 	if (email == "") {
-		theErrorFields.push("Email");
+		theErrorFields.push(" Email");
 	}
 	
 	if (theErrorFields.length > 0) {
