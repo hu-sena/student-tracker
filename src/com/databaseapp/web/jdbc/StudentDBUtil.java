@@ -131,7 +131,7 @@ public class StudentDBUtil {
 			myConnection = dataSource.getConnection();
 			
 			// Step 2: create SQL statement: select based on ID
-			String SQL = "SLECT * FROM student "
+			String SQL = "SELECT * FROM student "
 					   + "WHERE id=?";
 			myStatement = myConnection.prepareStatement(SQL);
 			
