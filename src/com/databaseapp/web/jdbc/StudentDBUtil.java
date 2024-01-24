@@ -56,7 +56,7 @@ public class StudentDBUtil {
 			return students;
 			
 		} finally {
-			// Step 4: close JDBC objects connection
+			// Step 5: close JDBC objects connection
 			close(myConnection, myStatement, myResult);
 		}
 		
@@ -107,7 +107,7 @@ public class StudentDBUtil {
 			myStatement.execute();
 			
 		} finally {
-			// Step 4: close JDBC objects connection
+			// Step 5: close JDBC objects connection
 			close(myConnection, myStatement, null);
 		}
 			
@@ -156,7 +156,7 @@ public class StudentDBUtil {
 			return theStudent;
 			
 		} finally {
-			// Step 4: close JDBC objects connection
+			// Step 6: close JDBC objects connection
 			close(myConnection, myStatement, myResult);
 		}
 			
@@ -164,8 +164,35 @@ public class StudentDBUtil {
 		
 	}
 
-	public void updateStudent(Student theStudent) {
-		// TODO Auto-generated method stub
+	public void updateStudent(Student theStudent) throws Exception {
+		
+		Connection myConnection = null;
+		PreparedStatement myStatement = null;
+		
+		try {
+			// Step 1: get DBC connection
+			myConnection = dataSource.getConnection();
+			
+			// Step 2: create SQL statement: update
+			String SQL = "UPDATE student "
+					   + "SET first_name=?, last_name=?, email=? "
+					   + "where id=?";
+			myStatement = myConnection.prepareStatement(SQL);
+			
+			// Step 3: set the param values 
+			myStatement.setString(1,  theStudent.getFirstName());
+			myStatement.setString(2,  theStudent.getLastName());
+			myStatement.setString(3,  theStudent.getEmail());
+			
+			myStatement.setInt(4, theStudent.getId());
+			
+			// Step 4: execute the SQL statement
+			myStatement.execute();
+			
+		} finally {
+			// Step 5: close JDBC objects connection
+			close(myConnection, myStatement, null);
+		}
 		
 	}
 }
