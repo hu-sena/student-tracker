@@ -95,6 +95,7 @@ public class StudentControllerServlet extends HttpServlet {
 	                
 	        // Step 4: send to JSP
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("/list-students.jsp");
+	        dispatcher.forward(request, response);
 	        
 		
 	}
