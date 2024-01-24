@@ -21,12 +21,16 @@
 	<div id="container">
 		<div id="content">
 		
+		<!-- add search box: Search Student -->
+		<form action="StudentControllerServlet" method="GET">
+			<input type="hidden" name="command" value="SEARCH" />
+			
+            	Search student: <input type="text" name="theSearchName" />
+            <input type="submit" value="Search" class="add-student-button" />
+        </form>
+		
 		<!-- add new button: Add Student -->
-		<!--  
-		<input type="button" value="Add Student"
-			   onclick="window.location.href='add-student-form.jsp'; return=false;"
-			   class="add-student-button" />
-		-->
+		
 		<form action="add-student-form.jsp">
 			<input type="submit" value="Add Student"
 				   class="add-student-button" />
