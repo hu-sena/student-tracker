@@ -226,4 +226,9 @@ public class StudentDBUtil {
 		}
 		
 	}
+
+	public List<Student> searchStudents(String theSearchName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
