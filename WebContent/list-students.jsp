@@ -46,7 +46,7 @@
 				<c:url var="tempLink" value="StudentControllerServlet">
 					<c:param name="command" value="LOAD" />
 					<c:param name="studentId" value="${tempStudent.id}" />
-				<!-- example: http://localhost:8005/student-tracker-app/%7BtempLink%7D -->
+				<!-- example: .../StudentControllerServlet?command=LOAD&studentId=1 -->
 				
 				</c:url>
 				
