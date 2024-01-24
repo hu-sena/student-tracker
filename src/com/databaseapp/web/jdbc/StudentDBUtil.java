@@ -115,4 +115,9 @@ public class StudentDBUtil {
 		
 		
 	}
+
+	public Student getStudent(String theStudentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
