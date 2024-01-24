@@ -64,6 +64,10 @@ public class StudentControllerServlet extends HttpServlet {
 				case "LOAD":
 					loadStudent(request, response);
 					break;
+					
+				case "UPDATE":
+					updateStudent(request, response);
+					break;
 				
 				default: 
 					listStudents(request, response);
@@ -72,6 +76,26 @@ public class StudentControllerServlet extends HttpServlet {
 		} catch (Exception exc) {
 			throw new ServletException(exc);
 		}
+	}
+
+
+	private void updateStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		// Step 1: read student info from form
+		int id = Integer.parseInt(request.getParameter("studentId"));
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
+		
+		// Step 2: create a new student object
+		Student theStudent = new Student(id, firstName, lastName, email);
+		
+		// Step 3: update the student to the database
+		studentDBUtil.updateStudent(theStudent);
+		
+		// Step 4: send to JSP 
+		listStudents(request, response);
+		
 	}
 
 

@@ -163,4 +163,9 @@ public class StudentDBUtil {
 		
 		
 	}
+
+	public void updateStudent(Student theStudent) {
+		// TODO Auto-generated method stub
+		
+	}
 }
