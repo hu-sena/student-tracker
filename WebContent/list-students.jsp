@@ -46,6 +46,7 @@
 				<c:url var="tempLink" value="StudentControllerServlet">
 					<c:param name="command" value="LOAD" />
 					<c:param name="studentId" value="${tempStudent.id}" />
+				<!-- example: http://localhost:8005/student-tracker-app/%7BtempLink%7D -->
 				
 				</c:url>
 				
@@ -53,7 +54,7 @@
 						<td>${tempStudent.firstName}</td>
 						<td>${tempStudent.lastName}</td>
 						<td>${tempStudent.email}</td>
-						<td><a href="{tempLink}">Update</a></td>
+						<td><a href="${tempLink}">Update</a></td>
 					</tr>
 				
 				</c:forEach>
