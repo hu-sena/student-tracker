@@ -176,7 +176,7 @@ public class StudentDBUtil {
 			// Step 2: create SQL statement: update
 			String SQL = "UPDATE student "
 					   + "SET first_name=?, last_name=?, email=? "
-					   + "where id=?";
+					   + "WHERE id=?";
 			myStatement = myConnection.prepareStatement(SQL);
 			
 			// Step 3: set the param values 
@@ -196,8 +196,34 @@ public class StudentDBUtil {
 		
 	}
 
-	public void deleteStudent(String theStudentId) {
-		// TODO Auto-generated method stub
+	public void deleteStudent(String theStudentId) throws Exception {
+		
+		Connection myConnection = null;
+		PreparedStatement myStatement = null;
+		int studentId;
+		
+		
+		try {
+			// Step 0: convert student ID into int
+			studentId = Integer.parseInt(theStudentId);
+			
+			// Step 1: get DBC connection
+			myConnection = dataSource.getConnection();
+			
+			// Step 2: create SQL statement: update
+			String SQL = "DELETE FROM student WHERE id=?";
+			myStatement = myConnection.prepareStatement(SQL);
+			
+			// Step 3: set the param values 
+			myStatement.setInt(1, studentId);
+			
+			// Step 4: execute the SQL statement
+			myStatement.execute();
+			
+		} finally {
+			// Step 5: close JDBC objects connection
+			close(myConnection, myStatement, null);
+		}
 		
 	}
 }
