@@ -89,7 +89,7 @@ public class StudentDBUtil {
 		PreparedStatement myStatement = null;
 		
 		try {
-			// Step 1: get DBC connection
+			// Step 1: get JDBC connection
 			myConnection = dataSource.getConnection();
 			
 			// Step 2: create SQL statement: insert
@@ -98,7 +98,7 @@ public class StudentDBUtil {
 					   + "values (?, ?, ?)";
 			myStatement = myConnection.prepareStatement(SQL);
 			
-			// Step 3: set the param values 
+			// Step 3: set the parameter values 
 			myStatement.setString(1,  theStudent.getFirstName());
 			myStatement.setString(2,  theStudent.getLastName());
 			myStatement.setString(3,  theStudent.getEmail());
@@ -127,7 +127,7 @@ public class StudentDBUtil {
 			// Step 0: convert student ID into int
 			studentId = Integer.parseInt(theStudentId);
 			
-			// Step 1: get DBC connection
+			// Step 1: get JDBC connection
 			myConnection = dataSource.getConnection();
 			
 			// Step 2: create SQL statement: select based on ID
@@ -135,7 +135,7 @@ public class StudentDBUtil {
 					   + "WHERE id=?";
 			myStatement = myConnection.prepareStatement(SQL);
 			
-			// Step 3: set the param values 
+			// Step 3: set the parameter values 
 			myStatement.setInt(1,  studentId);
 			
 			// Step 4: execute the SQL statement
@@ -170,7 +170,7 @@ public class StudentDBUtil {
 		PreparedStatement myStatement = null;
 		
 		try {
-			// Step 1: get DBC connection
+			// Step 1: get JDBC connection
 			myConnection = dataSource.getConnection();
 			
 			// Step 2: create SQL statement: update
@@ -179,7 +179,7 @@ public class StudentDBUtil {
 					   + "WHERE id=?";
 			myStatement = myConnection.prepareStatement(SQL);
 			
-			// Step 3: set the param values 
+			// Step 3: set the parameter values 
 			myStatement.setString(1,  theStudent.getFirstName());
 			myStatement.setString(2,  theStudent.getLastName());
 			myStatement.setString(3,  theStudent.getEmail());
@@ -207,14 +207,14 @@ public class StudentDBUtil {
 			// Step 0: convert student ID into int
 			studentId = Integer.parseInt(theStudentId);
 			
-			// Step 1: get DBC connection
+			// Step 1: get JDBC connection
 			myConnection = dataSource.getConnection();
 			
 			// Step 2: create SQL statement: update
 			String SQL = "DELETE FROM student WHERE id=?";
 			myStatement = myConnection.prepareStatement(SQL);
 			
-			// Step 3: set the param values 
+			// Step 3: set the parameter values 
 			myStatement.setInt(1, studentId);
 			
 			// Step 4: execute the SQL statement
@@ -227,8 +227,65 @@ public class StudentDBUtil {
 		
 	}
 
-	public List<Student> searchStudents(String theSearchName) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Student> searchStudents(String theSearchName) throws Exception {
+		
+		List<Student> students = new ArrayList<>();
+        
+		Connection myConnection = null;
+		PreparedStatement myStatement = null;
+		ResultSet myResult = null;
+		int studentId;
+        
+        try {
+            
+        	// Step 1: get JDBC connection
+            myConnection = dataSource.getConnection();
+            
+            // Step 2: search by student name if theSearchName != null
+            if (theSearchName != null && theSearchName.trim().length() > 0) {
+                
+            	// create SQL statement: select
+                String SQL = "SELECT * FROM student WHERE lower(first_name) LIKE ? "
+                		   + "OR lower(last_name) LIKE ?";
+                
+                myStatement = myConnection.prepareStatement(SQL);
+                
+                // set the parameter values
+                // using wildcard (%) to search all possible string that contains theSearchName
+                String theSearchNameLike = "%" + theSearchName.toLowerCase() + "%";
+                myStatement.setString(1, theSearchNameLike);
+                myStatement.setString(2, theSearchNameLike);
+                
+            } else {
+                // create SQL to get all students if theSearchName == null
+                String SQL = "SELECT * FROM student ORDER BY last_name";
+                myStatement = myConnection.prepareStatement(SQL);
+            }
+            
+            // Step 3: execute the SQL statement
+            myResult = myStatement.executeQuery();
+            
+            // Step 4: retrieve data from result set
+            while (myResult.next()) {
+                
+                int id = myResult.getInt("id");
+                String firstName = myResult.getString("first_name");
+                String lastName = myResult.getString("last_name");
+                String email = myResult.getString("email");
+                
+                // create a new student object
+                Student tempStudent = new Student(id, firstName, lastName, email);
+                
+                // add to the list of students
+                students.add(tempStudent);            
+            }
+            
+            return students;
+        }
+        finally {
+            
+        	// Step 5: close JDBC objects connection
+        	close(myConnection, myStatement, myResult);
+        }
 	}
 }
