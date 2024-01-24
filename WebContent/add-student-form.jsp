@@ -46,7 +46,7 @@
 		</form>
 		<div style="clear: both;">
 		<p>
-			<a href="StudentContollerServlet">Back to List</a>
+			<a href="StudentControllerServlet">Back to List</a>
 		</p>
 		</div>
 		
